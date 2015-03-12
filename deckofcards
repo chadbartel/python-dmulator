@@ -44,7 +44,7 @@ class Deck(object):
         """
         Adds card to deck
         """
-        self.cards.remove(card)
+        self.cards.append(card)
 
     def remove_card(self, card):
         self.cards.remove(card)
@@ -59,6 +59,9 @@ class Deck(object):
         random.shuffle(self.cards)
 
     def sort(self):
+        """
+        This method doesn't work
+        """
         self.cards.sort()
 
     def move_cards(self, hand, num):
@@ -98,8 +101,8 @@ if __name__ == '__main__':
     deck.shuffle()
 
     hand = Hand()
-    print(find_defining_class(hand, 'shuffle'))
 
     deck.move_cards(hand, 5)
+    print(hand)
     hand.sort()
     print(hand)
