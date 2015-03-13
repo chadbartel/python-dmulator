@@ -1,0 +1,95 @@
+__author__ = 'Chaddle'
+
+
+class Master(object):
+
+    def __init__(self):
+        pass
+
+    def make_class(self, name):
+        pass
+
+    def get_stats(self, name):
+        # Set all properties here like the Class
+        import re
+        from bs4 import BeautifulSoup
+        import urllib.request
+
+        self.name = str.capitalize(name).strip()
+        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
+        path = "file:///E:/www.d20srd.org/srd/monsters/"
+        path += self.name + ".htm"
+        try:
+            page = urllib.request.urlopen(path)
+            soup = BeautifulSoup(page.read())
+            keys = []
+            values = []
+
+            tds = soup.find_all('td')
+            for td in tds:
+                try:
+                    values.append(str(td.text).strip())
+                except AttributeError:
+                    values.append(str(td).strip())
+
+            count = 0
+            for th in soup.find_all('a', {"href": re.compile("intro.htm#")}):
+                keys.append(str(th.get('href')))
+                keys[count] = keys[count].replace("intro.htm#", "").strip()
+                count += 1
+
+            self.__dict__ = dict(zip(keys, values))
+
+            # One way to make a nested dict
+            abilities = self.__dict__.get('abilities')
+            if abilities:
+                self.__dict__['abilities'] = {m.group(1): int(m.group(2))
+                                              for m in re.finditer(r'(\w+) (\d+)', abilities)}
+            saves = self.__dict__.get('saves')
+            if saves:
+                self.__dict__['saves'] = {m.group(1): int(m.group(2))
+                                          for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
+            # Another way to make a nested dict
+            '''
+            temp = self.__dict__['abilities'].split(',')
+            ab_dict = {}
+            for t in temp:
+                breakup = t.split()
+                ab_dict[breakup[0]] = int(breakup[1])
+            self.__dict__['abilities'] = ab_dict
+            '''
+
+        except LookupError as e:
+            print(e)
+
+    def attack(self, other):
+        import random
+        if random.randint(1, 20) >= other.dict['armorClass']:
+            damage = self.__dict__['attack']
+            return damage
+        else:
+            pass
+
+    # This method doesn't seem to work
+    def save(self, saveType):
+        import random
+        try:
+            if str(saveType).capitalize() == 'Fort':
+                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                return save
+            elif str(saveType).capitalize() == 'Ref':
+                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                return save
+            elif str(saveType).capitalize() == 'Will':
+                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                return save
+        except LookupError as e:
+            print(e)
+
+
+kobold = Master()
+kobold.get_stats("kobold")
+
+print(kobold.__dict__)
+print(kobold.__dict__['abilities'])
+print(kobold.__dict__['saves'])
