@@ -40,6 +40,25 @@ class Master(object):
 
             self.__dict__ = dict(zip(keys, values))
 
+            # One way to make a nested dict
+            abilities = self.__dict__.get('abilities')
+            if abilities:
+                self.__dict__['abilities'] = {m.group(1): int(m.group(2))
+                                              for m in re.finditer(r'(\w+) (\d+)', abilities)}
+            saves = self.__dict__.get('saves')
+            if saves:
+                self.__dict__['saves'] = {m.group(1): int(m.group(2))
+                                          for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
+            # Another way to make a nested dict
+            '''
+            temp = self.__dict__['abilities'].split(',')
+            ab_dict = {}
+            for t in temp:
+                breakup = t.split()
+                ab_dict[breakup[0]] = int(breakup[1])
+            self.__dict__['abilities'] = ab_dict
+            '''
+
         except LookupError as e:
             print(e)
 
@@ -72,3 +91,5 @@ kobold = Master()
 kobold.get_stats("kobold")
 
 print(kobold.__dict__)
+print(kobold.__dict__['abilities'])
+print(kobold.__dict__['saves'])
