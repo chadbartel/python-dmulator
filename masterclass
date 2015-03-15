@@ -1,9 +1,6 @@
 __author__ = 'Chaddle'
 
 
-__author__ = 'Chaddle'
-
-
 class Master(object):
 
     def __init__(self):
@@ -46,12 +43,21 @@ class Master(object):
             # One way to make a nested dict
             abilities = self.__dict__.get('abilities')
             if abilities:
-                self.__dict__['abilities'] = {m.group(1): int(m.group(2))
+                self.__dict__['abilities'] = {m.group(1).capitalize(): int(m.group(2))
                                               for m in re.finditer(r'(\w+) (\d+)', abilities)}
             saves = self.__dict__.get('saves')
             if saves:
-                self.__dict__['saves'] = {m.group(1): int(m.group(2))
+                self.__dict__['saves'] = {m.group(1).capitalize(): int(m.group(2))
                                           for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
+
+            organization = self.__dict__.get('organization')
+            if organization:
+                self.__dict__['organization'] = {m.group(1).capitalize(): m.group(2)
+                    for m in re.finditer(r'(\w+) \(([^)]+)\)',
+                                         organization)}
+
+            # Pythonic way to create nested dicts
+
             
         except LookupError as e:
             print(e)
@@ -69,13 +75,13 @@ class Master(object):
         import random
         try:
             if str(saveType).capitalize() == 'Fort':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.__dict__['saves']['Fort'])
                 return save
             elif str(saveType).capitalize() == 'Ref':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.__dict__['saves']['Ref'])
                 return save
             elif str(saveType).capitalize() == 'Will':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.__dict__['saves']['Will'])
                 return save
         except LookupError as e:
             print(e)
@@ -87,3 +93,6 @@ kobold.get_stats("kobold")
 print(kobold.__dict__)
 print(kobold.__dict__['abilities'])
 print(kobold.__dict__['saves'])
+print(kobold.__dict__['organization'])
+
+print(kobold.save('Fort'))
