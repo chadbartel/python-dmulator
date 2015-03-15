@@ -1,6 +1,9 @@
 __author__ = 'Chaddle'
 
 
+__author__ = 'Chaddle'
+
+
 class Master(object):
 
     def __init__(self):
@@ -17,7 +20,7 @@ class Master(object):
 
         self.name = str.capitalize(name).strip()
         # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
-        path = "file:///E:/www.d20srd.org/srd/monsters/"
+        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/monsters/"
         path += self.name + ".htm"
         try:
             page = urllib.request.urlopen(path)
@@ -49,16 +52,7 @@ class Master(object):
             if saves:
                 self.__dict__['saves'] = {m.group(1): int(m.group(2))
                                           for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
-            # Another way to make a nested dict
-            '''
-            temp = self.__dict__['abilities'].split(',')
-            ab_dict = {}
-            for t in temp:
-                breakup = t.split()
-                ab_dict[breakup[0]] = int(breakup[1])
-            self.__dict__['abilities'] = ab_dict
-            '''
-
+            
         except LookupError as e:
             print(e)
 
