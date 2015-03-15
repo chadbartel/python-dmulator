@@ -1,0 +1,35 @@
+__author__ = 'Chaddle'
+
+class Equipment(object):
+
+    def __init__(self, name):
+        self.name = str(name).strip()
+
+    def make_class(self):
+        pass
+
+    def get_stats(self):
+        # Set all properties here like the Class
+        import re
+        from bs4 import BeautifulSoup
+        import urllib.request
+
+        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
+        self.name = self.name.lower()
+        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/equipment/"
+        path += self.name + ".htm"
+        try:
+            page = urllib.request.urlopen(path)
+            soup = BeautifulSoup(page.read())
+            keys = []
+            values = []
+
+            tds = soup.find_all('td')
+            for td in tds:
+                try:
+                    values.append(str(td.text).strip())
+                except AttributeError:
+                    values.append(str(td).strip())
+
+        except BaseException as e:
+            print(e)
