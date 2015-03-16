@@ -25,28 +25,43 @@ for i in range(len(equip_table)):
     if i % 9 == 0:
         armors.append(equip_table[i])
 
+val_dict_list = []
+for a in armors:
+    for e in equip_table:
+        if a == e:
+            pass
+        else:
+            for i in range(equip_table.index(a)+1, equip_table.index(a)+9):
+                val_dict_list.append(
+                    dict(
+
+                    )
+                )
+
+'''
 armor_dict = {}
 for a in armors:
     armor_dict[a] = ''
     if a in equip_table:
         for i in range(equip_table.index(a)+1, equip_table.index(a)+9):
             if i == 1 or i % 10:
-                armor_dict[a][col_heads[0]] += equip_table[i]
+                armor_dict[a][col_heads[1]] = ''
+                armor_dict[a][col_heads[1]] += equip_table[i]
             elif i == 2 or i % 11:
-                armor_dict[a][col_heads[1]] = equip_table[i]
-            elif i == 3 or i % 12:
                 armor_dict[a][col_heads[2]] = equip_table[i]
-            elif i == 4 or i % 13:
+            elif i == 3 or i % 12:
                 armor_dict[a][col_heads[3]] = equip_table[i]
-            elif i == 5 or i % 14:
+            elif i == 4 or i % 13:
                 armor_dict[a][col_heads[4]] = equip_table[i]
-            elif i == 6 or i % 15:
+            elif i == 5 or i % 14:
                 armor_dict[a][col_heads[5]] = equip_table[i]
-            elif i == 7 or i % 16:
+            elif i == 6 or i % 15:
                 armor_dict[a][col_heads[6]] = equip_table[i]
-            elif i == 8 or i % 17:
+            elif i == 7 or i % 16:
                 armor_dict[a][col_heads[7]] = equip_table[i]
+                '''
 
-print(equip_table, len(equip_table))
-print(armors, len(armors))
-print(armor_dict)
+
+# print(equip_table, len(equip_table))
+# print(armors, len(armors))
+# print(armor_dict)
