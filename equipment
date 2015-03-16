@@ -1,35 +1,29 @@
 __author__ = 'Chaddle'
 
-class Equipment(object):
 
-    def __init__(self, name):
-        self.name = str(name).strip()
+# Set all properties here like the Class
+import re
+from bs4 import BeautifulSoup
+import urllib.request
 
-    def make_class(self):
-        pass
+#NOTE: there are 21 types of armor => there will be 21 keys and 21 sub-dicts
+#       there are 9 properties to each armor entry => we will be grabbing 189 data-points
 
-    def get_stats(self):
-        # Set all properties here like the Class
-        import re
-        from bs4 import BeautifulSoup
-        import urllib.request
+path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/equipment/armor.htm"
 
-        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
-        self.name = self.name.lower()
-        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/equipment/"
-        path += self.name + ".htm"
-        try:
-            page = urllib.request.urlopen(path)
-            soup = BeautifulSoup(page.read())
-            keys = []
-            values = []
+page = urllib.request.urlopen(path)
+soup = BeautifulSoup(page.read())
+keys = ['Padded', 'Leather', 'Studded leather', 'Chain shirt', 'Hide', 'Scale mail', 'Chainmail',
+        'Breastplate', 'Splint mail', 'Banded mail', 'Half-plate', 'Full plate', 'Buckler',
+        'Shield, light wooden', 'Shield, light steel', 'Shield, heavy wooden', 'Shield, heavy steel',
+        'Shield, tower', 'Armor spikes', 'Gauntlet, locked', 'Shield spikes']
+col_heads = ['Armor', 'Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
+             'Arcane Spell Failure Chance', 'Speed', 'Weight']
 
-            tds = soup.find_all('td')
-            for td in tds:
-                try:
-                    values.append(str(td.text).strip())
-                except AttributeError:
-                    values.append(str(td).strip())
+print(soup.table.tbody.contents)
+temp = []
+for line in soup.table.tbody.find_all('td'):
+    temp.append(str(line.text).strip())
 
-        except BaseException as e:
-            print(e)
+print(temp)
+print(len(temp), int(len(temp)/9))
