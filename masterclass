@@ -25,8 +25,7 @@ class Master(object):
             keys = []
             values = []
 
-            tds = soup.find_all('td')
-            for td in tds:
+            for td in soup.find_all('td'):
                 try:
                     values.append(str(td.text).strip())
                 except AttributeError:
