@@ -14,7 +14,7 @@ path = "file:///E:/www.d20srd.org/srd/equipment/armor.htm"
 page = urllib.request.urlopen(path)
 soup = BeautifulSoup(page.read())
 col_heads = ['Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
-             'Arcane Spell Failure Chance', 'Speed', 'Weight']
+             'Arcane Spell Failure Chance', 'Speed30', 'Speed20', 'Weight']
 
 equip_table = []
 for line in soup.table.tbody.find_all('td'):
@@ -33,5 +33,5 @@ for a in armors_list:
         item_dict[a][h] = equip_table[index+1]
         index += 1
 
-print(item_dict)
-print(item_dict["Full plate"])
+for k, v in item_dict:
+    print(k, v)
