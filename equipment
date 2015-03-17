@@ -36,8 +36,8 @@ class Armor(object):
             for h in self.col_heads:
                 armor_dict[a][h] = equip_table[index+1]
                 index += 1
-        self.armor_dict = armor_dict
+        self.armor_dict = armor_dict[self.name]
 
 breastplate = Armor("Breastplate")
 breastplate.get_stats()
-print(breastplate.armor_dict)
+print(breastplate.armor_dict["Cost"])
