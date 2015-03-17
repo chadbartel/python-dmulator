@@ -16,9 +16,8 @@ class Master(object):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
         self.name = self.name.lower()
-        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/monsters/"
+        path = "file:///.../monsters/"
         path += self.name + ".htm"
         try:
             page = urllib.request.urlopen(path)
