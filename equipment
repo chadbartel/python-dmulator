@@ -13,55 +13,25 @@ path = "file:///E:/www.d20srd.org/srd/equipment/armor.htm"
 
 page = urllib.request.urlopen(path)
 soup = BeautifulSoup(page.read())
-col_heads = ['Armor', 'Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
+col_heads = ['Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
              'Arcane Spell Failure Chance', 'Speed', 'Weight']
 
 equip_table = []
 for line in soup.table.tbody.find_all('td'):
     equip_table.append(str(line.text).strip())
 
-armors = []
+armors_list = []
 for i in range(len(equip_table)):
     if i % 9 == 0:
-        armors.append(equip_table[i])
+        armors_list.append(equip_table[i])
 
-val_dict_list = []
-for a in armors:
-    for e in equip_table:
-        if a == e:
-            pass
-        else:
-            for i in range(equip_table.index(a)+1, equip_table.index(a)+9):
-                val_dict_list.append(
-                    dict(
+item_dict = {}
+for a in armors_list:
+    item_dict[a] = {}
+    index = equip_table.index(a)
+    for h in col_heads:
+        item_dict[a][h] = equip_table[index+1]
+        index += 1
 
-                    )
-                )
-
-'''
-armor_dict = {}
-for a in armors:
-    armor_dict[a] = ''
-    if a in equip_table:
-        for i in range(equip_table.index(a)+1, equip_table.index(a)+9):
-            if i == 1 or i % 10:
-                armor_dict[a][col_heads[1]] = ''
-                armor_dict[a][col_heads[1]] += equip_table[i]
-            elif i == 2 or i % 11:
-                armor_dict[a][col_heads[2]] = equip_table[i]
-            elif i == 3 or i % 12:
-                armor_dict[a][col_heads[3]] = equip_table[i]
-            elif i == 4 or i % 13:
-                armor_dict[a][col_heads[4]] = equip_table[i]
-            elif i == 5 or i % 14:
-                armor_dict[a][col_heads[5]] = equip_table[i]
-            elif i == 6 or i % 15:
-                armor_dict[a][col_heads[6]] = equip_table[i]
-            elif i == 7 or i % 16:
-                armor_dict[a][col_heads[7]] = equip_table[i]
-                '''
-
-
-# print(equip_table, len(equip_table))
-# print(armors, len(armors))
-# print(armor_dict)
+print(item_dict)
+print(item_dict["Full plate"])
