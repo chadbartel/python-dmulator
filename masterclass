@@ -3,21 +3,21 @@ __author__ = 'Chaddle'
 
 class Master(object):
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = str(name).strip()
+        self.master_dict = {}
+
+    def make_class(self):
         pass
 
-    def make_class(self, name):
-        pass
-
-    def get_stats(self, name):
+    def get_stats(self):
         # Set all properties here like the Class
         import re
         from bs4 import BeautifulSoup
         import urllib.request
 
-        self.name = str.capitalize(name).strip()
-        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
-        path = "file:///E:/www.d20srd.org/srd/monsters/"
+        self.name = self.name.lower()
+        path = "file:///.../monsters/"
         path += self.name + ".htm"
         try:
             page = urllib.request.urlopen(path)
@@ -25,8 +25,7 @@ class Master(object):
             keys = []
             values = []
 
-            tds = soup.find_all('td')
-            for td in tds:
+            for td in soup.find_all('td'):
                 try:
                     values.append(str(td.text).strip())
                 except AttributeError:
@@ -38,26 +37,24 @@ class Master(object):
                 keys[count] = keys[count].replace("intro.htm#", "").strip()
                 count += 1
 
-            self.__dict__ = dict(zip(keys, values))
+            self.master_dict = dict(zip(keys, values))
 
             # One way to make a nested dict
-            abilities = self.__dict__.get('abilities')
+            abilities = self.master_dict.get('abilities')
             if abilities:
-                self.__dict__['abilities'] = {m.group(1): int(m.group(2))
+                self.master_dict['abilities'] = {m.group(1).capitalize(): int(m.group(2))
                                               for m in re.finditer(r'(\w+) (\d+)', abilities)}
-            saves = self.__dict__.get('saves')
+
+            saves = self.master_dict.get('saves')
             if saves:
-                self.__dict__['saves'] = {m.group(1): int(m.group(2))
+                self.master_dict['saves'] = {m.group(1): int(m.group(2))
                                           for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
-            # Another way to make a nested dict
-            '''
-            temp = self.__dict__['abilities'].split(',')
-            ab_dict = {}
-            for t in temp:
-                breakup = t.split()
-                ab_dict[breakup[0]] = int(breakup[1])
-            self.__dict__['abilities'] = ab_dict
-            '''
+
+            organization = self.master_dict.get('organization')
+            if organization:
+                self.master_dict['organization'] = {m.group(1).capitalize(): m.group(2)
+                    for m in re.finditer(r'(\w+) \(([^)]+)\)',
+                                         organization)}
 
         except LookupError as e:
             print(e)
@@ -65,7 +62,7 @@ class Master(object):
     def attack(self, other):
         import random
         if random.randint(1, 20) >= other.dict['armorClass']:
-            damage = self.__dict__['attack']
+            damage = self.master_dict['attack']
             return damage
         else:
             pass
@@ -75,21 +72,24 @@ class Master(object):
         import random
         try:
             if str(saveType).capitalize() == 'Fort':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Fort'])
                 return save
             elif str(saveType).capitalize() == 'Ref':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Ref'])
                 return save
             elif str(saveType).capitalize() == 'Will':
-                save = random.randint(1, 20) + int(self.__dict__['saves'])
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Will'])
                 return save
         except LookupError as e:
             print(e)
 
 
-kobold = Master()
-kobold.get_stats("kobold")
+kobold = Master("kobold")
+kobold.get_stats()
 
-print(kobold.__dict__)
-print(kobold.__dict__['abilities'])
-print(kobold.__dict__['saves'])
+print(kobold.master_dict)
+print(kobold.master_dict['abilities'])
+print(kobold.master_dict['saves'])
+print(kobold.master_dict['organization'])
+
+print(kobold.save('Fort'))
