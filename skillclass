@@ -4,18 +4,24 @@ class Skill(object):
 
     def __init__(self, name):
         self.name = name.strip().lower()
+        self.class_dir = ''
 
-    def get_classes(self):
+    def get_class(self):
         import os
 
-        class_list = []
-        for file in os.listdir("C:\\...\\skills\\"):
+        class_dir = ''
+        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
             if file == str(self.name + ".htm"):
-                class_list.append(str(file).strip())
+                class_dir = str(file).strip()
+            else:
+                print("You're not on the list!")
 
-        self.class_list = class_list
+        self.class_dir = class_dir
+
+    def get_stats(self):
+        self.get_class()
+        
 
 skill = Skill("bluff")
-skill.get_classes()
-print(skill.class_list)
-print(len(skill.class_list))
+skill.get_class()
+print(skill.class_dir)
