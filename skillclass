@@ -5,6 +5,7 @@ class Skill(object):
     def __init__(self, name):
         self.name = name.strip().lower()
         self.class_dir = ''
+        self.rank = 0.0
 
     def get_class(self):
         import os
@@ -20,7 +21,7 @@ class Skill(object):
 
     def get_stats(self):
         self.get_class()
-        
+
 
 skill = Skill("bluff")
 skill.get_class()
