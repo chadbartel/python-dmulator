@@ -1,0 +1,9 @@
+__author__ = 'Chaddle'
+
+class Skill(object):
+
+    def __init__(self, name):
+        self.name = name.strip().lower()
+        if self.name not in self.skill_list:
+            pass
+        else:
