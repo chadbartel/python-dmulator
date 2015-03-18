@@ -4,6 +4,18 @@ class Skill(object):
 
     def __init__(self, name):
         self.name = name.strip().lower()
-        if self.name not in self.skill_list:
-            pass
-        else:
+
+    def get_classes(self):
+        import os
+
+        class_list = []
+        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
+            if file == str(self.name + ".htm"):
+                class_list.append(str(file).strip())
+
+        self.class_list = class_list
+
+skill = Skill("bluff")
+skill.get_classes()
+print(skill.class_list)
+print(len(skill.class_list))
