@@ -11,7 +11,7 @@ class Skill(object):
         import os
 
         class_dir = ''
-        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
+        for file in os.listdir("C:\\...\\skills\\"):
             if file == str(self.name + ".htm"):
                 class_dir = str(file).strip()
 
