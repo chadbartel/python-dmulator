@@ -9,7 +9,7 @@ class Skill(object):
         import os
 
         class_list = []
-        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
+        for file in os.listdir("C:\\...\\skills\\"):
             if file == str(self.name + ".htm"):
                 class_list.append(str(file).strip())
 
