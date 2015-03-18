@@ -1,0 +1,29 @@
+6 seconds = 1 combat round
+10 full combat rounds = 1 minute
+1 minute = 60 seconds
+60 seconds = 6 seconds * 10 combat rounds
+
+                    Standard DCs
+Very easy = 0 DC                |   Notice something large in plain sight
+Easy = 5 DC                     |   Climb a knotted rope
+Average = 10 DC                 |   Hear an approaching guard
+Tough = 15 DC                   |   Rig a wagon wheel to fall off
+Challenging = 20 DC             |   Swim in stormy water
+Formidable = 25 DC              |   Open an average lock
+Heroic = 30 DC                  |   Leap across a 30-foot chasm
+Nearly Impossible = 40 DC       |   Track a squad of orcs across hard ground after 24 hrs of rain
+
+        Opposing checks
+Bluff           |   Sense Motive
+Disguise        |   Spot
+Forgery         |   Forgery
+Hide            |   Spot
+Intimidate      |   Special
+Move Silently   |   Listen
+Sleight of Hand |   Spot
+Use Rope        |   Escape Artist
+
+        Aid Another
+- "Helper" rolls d20,
+- If  >=10, "teammate" receives +2 modifier on check.
+- Else, nothing.
