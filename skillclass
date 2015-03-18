@@ -11,11 +11,9 @@ class Skill(object):
         import os
 
         class_dir = ''
-        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
+        for file in os.listdir("C:\\...\\skills\\"):
             if file == str(self.name + ".htm"):
                 class_dir = str(file).strip()
-            else:
-                print("You're not on the list!")
 
         self.class_dir = class_dir
 
@@ -24,5 +22,5 @@ class Skill(object):
 
 
 skill = Skill("bluff")
-skill.get_class()
+skill.get_stats()
 print(skill.class_dir)
