@@ -54,3 +54,7 @@ class Monster(masterclass.Master):
                                          organization)}
         except LookupError as e:
             print(e)
+
+        # Here is where you would generate the new class
+        # The class would be named after the monster name
+        # It will inherit from the 'Monster' class
