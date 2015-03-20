@@ -1,0 +1,188 @@
+__author__ = 'Chaddle'
+
+class Master(object):
+
+    def __init__(self, name):
+        self.name = str(name).strip()
+        self.master_dict = {}
+
+    def make_class(self):
+        pass
+
+    # Put decorator here to apply racial bonuses
+    def get_stats(self):
+        # Set all properties here like the Class
+        import re
+        from bs4 import BeautifulSoup
+        import urllib.request
+
+        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
+        self.name = self.name.lower()
+        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/monsters/"
+        path += self.name + ".htm"
+        try:
+            urllib.request.urlopen(path)
+            page = urllib.request.urlopen(path)
+            soup = BeautifulSoup(page.read())
+            keys = []
+            values = []
+
+            for td in soup.find_all('td'):
+                try:
+                    values.append(str(td.text).strip())
+                except AttributeError:
+                    values.append(str(td).strip())
+
+            count = 0
+            for th in soup.find_all('a', {"href": re.compile("intro.htm#")}):
+                keys.append(str(th.get('href')))
+                keys[count] = keys[count].replace("intro.htm#", "").strip()
+                count += 1
+
+            self.master_dict = dict(zip(keys, values))
+
+            # One way to make a nested dict
+            abilities = self.master_dict.get('abilities')
+            if abilities:
+                self.master_dict['abilities'] = {m.group(1).capitalize(): int(m.group(2))
+                                              for m in re.finditer(r'(\w+) (\d+)', abilities)}
+
+            saves = self.master_dict.get('saves')
+            if saves:
+                self.master_dict['saves'] = {m.group(1): int(m.group(2))
+                                          for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
+
+            organization = self.master_dict.get('organization')
+            if organization:
+                self.master_dict['organization'] = {m.group(1).capitalize(): m.group(2)
+                    for m in re.finditer(r'(\w+) \(([^)]+)\)',
+                                         organization)}
+
+        except BaseException:
+            player = input("Are you a PC? (y/n) : ").lower()
+            if player == "n":
+                print("Try entering the monster, again.")
+            else:
+                self.make_player()
+
+    def make_player(self):
+
+        from random import randint
+
+        self.ability_list = []
+        for i in range(6):
+
+            results = []
+            for j in range(4):
+                temp = randint(1, 6)
+                results.append(temp)
+                results.remove(min(results))
+                self.ability_list.append(sum(results))
+
+        print("Your ability scores are:"+"\n")
+        print(self.ability_list)
+
+        self.ability_scores = {}
+        for a in self.ability_list:
+            print('Choices:', '\n',
+                  '1 = Str', '\n',
+                  '2 = Con', '\n',
+                  '3 = Dex', '\n',
+                  '4 = Int', '\n',
+                  '5 = Wis', '\n',
+                  '6 = Cha')
+            print(a)
+            temp_input = input("Where would you like this to be allocated? (1 - 6):")
+            if temp_input == 1:
+                self.ability_scores['Str'] = a
+            elif temp_input == 2:
+                self.ability_scores['Con'] = a
+            elif temp_input == 3:
+                self.ability_scores['Dex'] = a
+            elif temp_input == 4:
+                self.ability_scores['Int'] = a
+            elif temp_input == 5:
+                self.ability_scores['Wis'] = a
+            elif temp_input == 6:
+                self.ability_scores['Cha'] = a
+
+
+    def attack(self, other):
+        import random
+        if random.randint(1, 20) >= other.dict['armorClass']:
+            damage = self.master_dict['attack']
+            return damage
+        else:
+            pass
+
+    def save(self, saveType):
+        import random
+        try:
+            if str(saveType).capitalize() == 'Fort':
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Fort'])
+                return save
+            elif str(saveType).capitalize() == 'Ref':
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Ref'])
+                return save
+            elif str(saveType).capitalize() == 'Will':
+                save = random.randint(1, 20) + int(self.master_dict['saves']['Will'])
+                return save
+        except LookupError as e:
+            print(e)
+
+class Armor(object):
+    from bs4 import BeautifulSoup
+    import urllib.request
+
+    path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/equipment/armor.htm"
+
+    page = urllib.request.urlopen(path)
+    soup = BeautifulSoup(page.read())
+    col_heads = ['Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
+                 'Arcane Spell Failure Chance', 'Speed30', 'Speed20', 'Weight']
+
+    def __init__(self, name):
+        self.name = str(name).strip()
+        self.armor_dict = {}
+
+    def get_stats(self):
+        equip_table = []
+        for line in self.soup.table.tbody.find_all('td'):
+            equip_table.append(str(line.text).strip())
+
+        armors_list = []
+        for i in range(len(equip_table)):
+            try:
+                if i % 9 == 0 and self.name == equip_table[i]:
+                    armors_list.append(equip_table[i])
+            except Exception as e:
+                print(e)
+
+        armor_dict = {}
+        for a in armors_list:
+            armor_dict[a] = {}
+            index = equip_table.index(a)
+            for h in self.col_heads:
+                armor_dict[a][h] = equip_table[index+1]
+                index += 1
+        self.armor_dict = armor_dict[self.name]
+
+class Skill(object):
+
+    def __init__(self, name):
+        self.name = name.strip().lower()
+        self.class_file = ''
+        self.rank = 0.0
+
+    def get_class(self):
+        import os
+
+        class_dir = ''
+        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
+            if file == str(self.name + ".htm"):
+                class_dir = str(file).strip()
+
+        self.class_file = class_dir
+
+    def get_stats(self):
+        self.get_class()
