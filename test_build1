@@ -6,22 +6,16 @@ class Master(object):
         self.name = str(name).strip()
         self.master_dict = {}
 
-    def make_class(self):
-        pass
-
-    # Put decorator here to apply racial bonuses
     def get_stats(self):
         # Set all properties here like the Class
         import re
         from bs4 import BeautifulSoup
         import urllib.request
 
-        # path = "file:///E:/www.d20srd.org/srd/monsters/kobold.htm"
         self.name = self.name.lower()
-        path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/monsters/"
+        path = "file:///...//monsters//"
         path += self.name + ".htm"
         try:
-            urllib.request.urlopen(path)
             page = urllib.request.urlopen(path)
             soup = BeautifulSoup(page.read())
             keys = []
@@ -58,54 +52,8 @@ class Master(object):
                     for m in re.finditer(r'(\w+) \(([^)]+)\)',
                                          organization)}
 
-        except BaseException:
-            player = input("Are you a PC? (y/n) : ").lower()
-            if player == "n":
-                print("Try entering the monster, again.")
-            else:
-                self.make_player()
-
-    def make_player(self):
-
-        from random import randint
-
-        self.ability_list = []
-        for i in range(6):
-
-            results = []
-            for j in range(4):
-                temp = randint(1, 6)
-                results.append(temp)
-                results.remove(min(results))
-                self.ability_list.append(sum(results))
-
-        print("Your ability scores are:"+"\n")
-        print(self.ability_list)
-
-        self.ability_scores = {}
-        for a in self.ability_list:
-            print('Choices:', '\n',
-                  '1 = Str', '\n',
-                  '2 = Con', '\n',
-                  '3 = Dex', '\n',
-                  '4 = Int', '\n',
-                  '5 = Wis', '\n',
-                  '6 = Cha')
-            print(a)
-            temp_input = input("Where would you like this to be allocated? (1 - 6):")
-            if temp_input == 1:
-                self.ability_scores['Str'] = a
-            elif temp_input == 2:
-                self.ability_scores['Con'] = a
-            elif temp_input == 3:
-                self.ability_scores['Dex'] = a
-            elif temp_input == 4:
-                self.ability_scores['Int'] = a
-            elif temp_input == 5:
-                self.ability_scores['Wis'] = a
-            elif temp_input == 6:
-                self.ability_scores['Cha'] = a
-
+        except LookupError as e:
+            print(e)
 
     def attack(self, other):
         import random
@@ -115,6 +63,7 @@ class Master(object):
         else:
             pass
 
+    # This method doesn't seem to work
     def save(self, saveType):
         import random
         try:
@@ -130,59 +79,69 @@ class Master(object):
         except LookupError as e:
             print(e)
 
-class Armor(object):
-    from bs4 import BeautifulSoup
-    import urllib.request
+class Player(Master):
+    char_stats_dict = {}
+    char_equipment_dict = {}
 
-    path = "file:///C:/Users/Chaddle/PycharmProjects/www.d20srd.org/srd/equipment/armor.htm"
+    def __init__(self, player_name):
+        self.player_name = player_name.strip()
+        super().__init__(self)
 
-    page = urllib.request.urlopen(path)
-    soup = BeautifulSoup(page.read())
-    col_heads = ['Cost', 'Armor/Shield Bonus', 'Maximum Dex Bonus', 'Armor Check Penalty',
-                 'Arcane Spell Failure Chance', 'Speed30', 'Speed20', 'Weight']
+    def create_char(self):
+        if self.char_stats_dict == {}:
+            self.roll_stats()
+            self.pick_class()
+            self.pick_race()
+            self.assign_stats()
 
-    def __init__(self, name):
-        self.name = str(name).strip()
-        self.armor_dict = {}
+    def roll_stats(self):
+        '''
+        Uses the "4d6, drop lowest" rule.
+        :return:
+        '''
+        dice_totals = []
+        for i in range(6):
+            dice_results = []
+            for j in range(4):
+                from random import randint
+                temp = randint(1, 6)
+                dice_results.append(temp)
+            dice_results.remove(min(dice_results))
+            dice_totals.append(sum(dice_results))
+            self.dice_totals = dice_totals
+        print(self.dice_totals)
+        return self.dice_totals
 
-    def get_stats(self):
-        equip_table = []
-        for line in self.soup.table.tbody.find_all('td'):
-            equip_table.append(str(line.text).strip())
+    def pick_class(self):
+        pass
 
-        armors_list = []
-        for i in range(len(equip_table)):
-            try:
-                if i % 9 == 0 and self.name == equip_table[i]:
-                    armors_list.append(equip_table[i])
-            except Exception as e:
-                print(e)
+    def pick_race(self):
+        pass
 
-        armor_dict = {}
-        for a in armors_list:
-            armor_dict[a] = {}
-            index = equip_table.index(a)
-            for h in self.col_heads:
-                armor_dict[a][h] = equip_table[index+1]
-                index += 1
-        self.armor_dict = armor_dict[self.name]
+    def assign_stats(self):
+        count = 1
+        print("Assignment key:\n", "1 = Str\n", "2 = Con\n",
+              "3 = Dex\n", "4 = Int\n", "5 = Wis\n", "6 = Cha")
+        for s in self.dice_totals:
+            print("Dice total #", count, "=", s)
+            player_in = int(input("Where would you like to assign this value? (1 - 6):"))
+            if player_in == 1:
+                self.char_stats_dict["Str"] = s
+            elif player_in == 2:
+                self.char_stats_dict["Con"] = s
+            elif player_in == 3:
+                self.char_stats_dict["Dex"] = s
+            elif player_in == 4:
+                self.char_stats_dict["Int"] = s
+            elif player_in == 5:
+                self.char_stats_dict["Wis"] = s
+            elif player_in == 6:
+                self.char_stats_dict["Cha"] = s
+            else:
+                print("This isn't an acceptable response. Try again.")
+                self.assign_stats()
+            count += 1
 
-class Skill(object):
-
-    def __init__(self, name):
-        self.name = name.strip().lower()
-        self.class_file = ''
-        self.rank = 0.0
-
-    def get_class(self):
-        import os
-
-        class_dir = ''
-        for file in os.listdir("C:\\Users\\Chaddle\\PycharmProjects\\www.d20srd.org\\srd\\skills\\"):
-            if file == str(self.name + ".htm"):
-                class_dir = str(file).strip()
-
-        self.class_file = class_dir
-
-    def get_stats(self):
-        self.get_class()
+chad = Player("Chad")
+chad.create_char()
+print(chad.char_stats_dict)
