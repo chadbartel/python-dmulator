@@ -1,0 +1,77 @@
+__author__ = "Chaddle"
+
+import masterclass
+
+class Player(masterclass.Master):
+    char_stats_dict = {}
+    char_equipment_dict = {}
+
+    def __init__(self, player_name):
+        self.player_name = player_name.strip()
+        super().__init__(self)
+
+    def create_char(self):
+        if self.char_stats_dict == {}:
+            self.roll_stats()
+            self.pick_class()
+            self.pick_race()
+            self.assign_stats()
+
+    def roll_stats(self):
+        '''
+        Uses the "4d6, drop lowest" rule.
+        :return:
+        '''
+        dice_totals = []
+        for i in range(6):
+            dice_results = []
+            for j in range(4):
+                from random import randint
+                temp = randint(1, 6)
+                dice_results.append(temp)
+            dice_results.remove(min(dice_results))
+            dice_totals.append(sum(dice_results))
+            self.dice_totals = dice_totals
+        print(self.dice_totals)
+        return self.dice_totals
+
+    def pick_class(self):
+        print("Class key:\n", "1 = Barbarian\n", "2 = Bard\n", "3 = Cleric\n",
+              "4 = Druid\n", "5 = Fighter\n", "6 = Monk\n", "7 = Paladin\n",
+              "8 = Ranger\n", "9 = Rogue\n", "10 = Sorcerer\n", "11 = Wizard")
+        player_in = int(input("Choose your class. (1 - 11): "))
+        self.get_class(player_in)
+
+    def get_class(self, player_in):
+        pass
+
+    def pick_race(self):
+        pass
+
+    def assign_stats(self):
+        count = 1
+        print("Assignment key:\n", "1 = Str\n", "2 = Con\n",
+              "3 = Dex\n", "4 = Int\n", "5 = Wis\n", "6 = Cha")
+        for s in self.dice_totals:
+            print("Dice total #", count, "=", s)
+            player_in = int(input("Where would you like to assign this value? (1 - 6):"))
+            if player_in == 1:
+                self.char_stats_dict["Str"] = s
+            elif player_in == 2:
+                self.char_stats_dict["Con"] = s
+            elif player_in == 3:
+                self.char_stats_dict["Dex"] = s
+            elif player_in == 4:
+                self.char_stats_dict["Int"] = s
+            elif player_in == 5:
+                self.char_stats_dict["Wis"] = s
+            elif player_in == 6:
+                self.char_stats_dict["Cha"] = s
+            else:
+                print("This isn't an acceptable response. Try again.")
+                self.assign_stats()
+            count += 1
+
+chad = Player("Chad")
+chad.create_char()
+print(chad.char_stats_dict)
