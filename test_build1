@@ -113,6 +113,13 @@ class Player(Master):
         return self.dice_totals
 
     def pick_class(self):
+        print("Class key:\n", "1 = Barbarian\n", "2 = Bard\n", "3 = Cleric\n",
+              "4 = Druid\n", "5 = Fighter\n", "6 = Monk\n", "7 = Paladin\n",
+              "8 = Ranger\n", "9 = Rogue\n", "10 = Sorcerer\n", "11 = Wizard")
+        player_in = int(input("Choose your class. (1 - 11): "))
+        self.get_class(player_in)
+
+    def get_class(self, player_in):
         pass
 
     def pick_race(self):
