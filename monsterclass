@@ -14,7 +14,7 @@ class Monster(masterclass.Master):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///...//monsters//"
+        path = "file:///E://www.d20srd.org//srd//monsters//"
         path += self.monster_name + ".htm"
         try:
             page = urllib.request.urlopen(path)
