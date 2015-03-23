@@ -7,57 +7,8 @@ class Master(object):
         self.name = str(name).strip()
         self.master_dict = {}
 
-    def make_class(self):
+    def generate_child(self):
         pass
-
-    def get_stats(self):
-        # Set all properties here like the Class
-        import re
-        from bs4 import BeautifulSoup
-        import urllib.request
-
-        self.name = self.name.lower()
-        path = "file:///.../monsters/"
-        path += self.name + ".htm"
-        try:
-            page = urllib.request.urlopen(path)
-            soup = BeautifulSoup(page.read())
-            keys = []
-            values = []
-
-            for td in soup.find_all('td'):
-                try:
-                    values.append(str(td.text).strip())
-                except AttributeError:
-                    values.append(str(td).strip())
-
-            count = 0
-            for th in soup.find_all('a', {"href": re.compile("intro.htm#")}):
-                keys.append(str(th.get('href')))
-                keys[count] = keys[count].replace("intro.htm#", "").strip()
-                count += 1
-
-            self.master_dict = dict(zip(keys, values))
-
-            # One way to make a nested dict
-            abilities = self.master_dict.get('abilities')
-            if abilities:
-                self.master_dict['abilities'] = {m.group(1).capitalize(): int(m.group(2))
-                                              for m in re.finditer(r'(\w+) (\d+)', abilities)}
-
-            saves = self.master_dict.get('saves')
-            if saves:
-                self.master_dict['saves'] = {m.group(1): int(m.group(2))
-                                          for m in re.finditer(r'(\w+) (\+\d|\-\d)+', saves)}
-
-            organization = self.master_dict.get('organization')
-            if organization:
-                self.master_dict['organization'] = {m.group(1).capitalize(): m.group(2)
-                    for m in re.finditer(r'(\w+) \(([^)]+)\)',
-                                         organization)}
-
-        except LookupError as e:
-            print(e)
 
     def attack(self, other):
         import random
@@ -68,28 +19,20 @@ class Master(object):
             pass
 
     # This method doesn't seem to work
-    def save(self, saveType):
+    def saving_throw(self, save_type):
         import random
         try:
-            if str(saveType).capitalize() == 'Fort':
+            if str(save_type).capitalize() == 'Fort':
                 save = random.randint(1, 20) + int(self.master_dict['saves']['Fort'])
                 return save
-            elif str(saveType).capitalize() == 'Ref':
+            elif str(save_type).capitalize() == 'Ref':
                 save = random.randint(1, 20) + int(self.master_dict['saves']['Ref'])
                 return save
-            elif str(saveType).capitalize() == 'Will':
+            elif str(save_type).capitalize() == 'Will':
                 save = random.randint(1, 20) + int(self.master_dict['saves']['Will'])
                 return save
         except LookupError as e:
             print(e)
 
-
-kobold = Master("kobold")
-kobold.get_stats()
-
-print(kobold.master_dict)
-print(kobold.master_dict['abilities'])
-print(kobold.master_dict['saves'])
-print(kobold.master_dict['organization'])
-
-print(kobold.save('Fort'))
+    def skill_check(self, skill_name):
+        pass
