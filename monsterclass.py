@@ -2,6 +2,7 @@ __author__ = 'Chaddle'
 
 import masterclass
 
+
 class Monster(masterclass.Master):
 
     def __init__(self, monster_name):
