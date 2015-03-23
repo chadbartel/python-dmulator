@@ -1,6 +1,6 @@
 __author__ = 'v-chbart'
 
-from Tkinter import *
+from tkinter import *
 
 root = Tk()
 
