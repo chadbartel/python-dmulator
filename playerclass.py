@@ -9,6 +9,7 @@ class Player(masterclass.Master):
         self.ability_scores = []
         self.class_dict = {}
         self.ability_dict = {}
+        self.class_keys = []
 
     def roll_abilities(self):
 
@@ -26,10 +27,10 @@ class Player(masterclass.Master):
 
         return self.ability_scores
 
-    def choose_class(self):
-        self.get_class()
-
     def get_class(self):
+        pass
+
+    def choose_class(self):
         self.class_name = ''
         self.class_name = input("Pick a class, any class: (barbarian, bar, cleric, druid, fighter, "
                     "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
@@ -42,10 +43,20 @@ class Player(masterclass.Master):
         try:
             page = urllib.request.urlopen(path)
             soup = BeautifulSoup(page.read())
-            keys = []
+            self.class_keys = []
             values = []
 
-        except:
-            pass
+            for h in soup.find_all('h5'):
+                try:
+                    self.class_keys.append(str(h.text).strip())
+                except AttributeError:
+                    self.class_keys.append(str(h).strip())
+
+        except Exception as e:
+            print(e)
         
         return None
+
+chad = Player()
+chad.choose_class()
+print(chad.class_keys)
