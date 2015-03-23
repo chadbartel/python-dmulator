@@ -5,8 +5,8 @@ import masterclass
 class Monster(masterclass.Master):
 
     def __init__(self, monster_name):
-        self.monster_name = monster_name.strip().lower()
         super().__init__(self)
+        self.monster_name = monster_name.strip().lower()
 
     def get_monster(self):
         # Set all properties here like the Class
