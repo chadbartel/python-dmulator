@@ -48,3 +48,4 @@ class Player(masterclass.Master):
         except:
             pass
         
+        return None
