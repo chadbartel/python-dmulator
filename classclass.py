@@ -55,18 +55,66 @@ class Class(object):
 
 
 class Fighter(Class):
-
+    # Melee class
     def __init__(self):
         super().__init__()
 
 
 class Barbarian(Class):
-
+    # Melee class
     def __init__(self):
         super().__init__()
 
 
 class Rogue(Class):
+    # Melee class
+    def __init__(self):
+        super().__init__()
 
+
+class Monk(Class):
+    # Melee class
+    def __init__(self):
+        super().__init__()
+
+
+class Bard(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Cleric(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Druid(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Paladin(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Ranger(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Sorcerer(Class):
+    # Magic class
+    def __init__(self):
+        super().__init__()
+
+
+class Wizard(Class):
+    # Magic class
     def __init__(self):
         super().__init__()
