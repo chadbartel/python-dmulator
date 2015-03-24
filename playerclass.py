@@ -9,42 +9,28 @@ class Player(masterclass.Master):
         self.ability_scores = []
         self.class_dict = {}
         self.ability_dict = {}
+        self.ability_scores = []
 
     def roll_abilities(self):
 
-        self.ability_scores = []
-        for i in range(6):
+        if self.ability_scores != []:
+            pass
+        else:
+            for i in range(6):
 
-            results = []
-            for j in range(4):
-                from random import randint
-                temp = randint(1, 6)
-                results.append(temp)
+                results = []
+                for j in range(4):
 
-            self.ability_scores.append(sum(results))
-            return results
+                    from random import randint
+                    temp = randint(1, 6)
+                    results.append(temp)
 
-        return self.ability_scores
-
-    def choose_class(self):
-        self.get_class()
+                results.remove(min(results))
+                self.ability_scores.append(sum(results))
 
     def get_class(self):
-        self.class_name = ''
-        self.class_name = input("Pick a class, any class: (barbarian, bar, cleric, druid, fighter, "
-                    "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
-        import re
-        from bs4 import BeautifulSoup
-        import urllib.request
+        pass
 
-        path = "file:///E://www.d20srd.org//srd//classes//"
-        path += self.class_name + ".htm"
-        try:
-            page = urllib.request.urlopen(path)
-            soup = BeautifulSoup(page.read())
-            keys = []
-            values = []
-
-        except:
-            pass
-        
+chad = Player()
+chad.roll_abilities()
+print(chad.ability_scores)
