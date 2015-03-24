@@ -50,6 +50,10 @@ class Class(object):
                 except AttributeError:
                     self.values.append(str(td).strip())
 
+            for v in self.values:
+                if self.values.index(v) % len(self.keys) == 0:
+                    self.class_table[v] = {}
+
         except Exception as e:
             print(e)
 
@@ -118,3 +122,7 @@ class Wizard(Class):
     # Magic class
     def __init__(self):
         super().__init__()
+
+cleric = Cleric()
+cleric.get_class()
+print(cleric.class_table)
