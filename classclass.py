@@ -1,25 +1,31 @@
 __author__ = 'Chaddle'
 
-class_name = input("Pick a class: (barbarian, bar, cleric, druid, fighter, "
-            "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
-import re
-from bs4 import BeautifulSoup
-import urllib.request
+class Class(object):
 
-path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//"
-path += class_name + ".htm"
+    def __init__(self):
+        pass
 
-try:
-    page = urllib.request.urlopen(path)
-    soup = BeautifulSoup(page.read())
-    keys = []
-    values = []
+    def get_class(self):
+        class_name = input("Pick a class: (barbarian, bar, cleric, druid, fighter, "
+                    "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
+        import re
+        from bs4 import BeautifulSoup
+        import urllib.request
 
-    for h in soup.find_all('h5'):
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//"
+        path += class_name + ".htm"
+
         try:
-            values.append(str(h.text).strip())
-        except AttributeError:
-            values.append(str(h).strip())
+            page = urllib.request.urlopen(path)
+            soup = BeautifulSoup(page.read())
+            keys = []
+            values = []
 
-except Exception as e:
-    print(e)
+            for h in soup.find_all('h5'):
+                try:
+                    values.append(str(h.text).strip())
+                except AttributeError:
+                    values.append(str(h).strip())
+
+        except Exception as e:
+            print(e)
