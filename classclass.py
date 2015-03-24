@@ -35,20 +35,20 @@ class Class(object):
         try:
             page = urllib.request.urlopen(path)
             soup = BeautifulSoup(page.read())
-            self.col_heads = []
-            self.contents = []
+            self.keys = []
+            self.values = []
 
             for th in soup.find_all('th'):
                 try:
-                    self.col_heads.append(str(th.text).strip())
+                    self.keys.append(str(th.text).strip())
                 except AttributeError:
-                    self.col_heads.append(str(th).strip())
+                    self.keys.append(str(th).strip())
 
             for td in soup.tbody.find_all('td'):
                 try:
-                    self.contents.append(str(td.text).strip())
+                    self.values.append(str(td.text).strip())
                 except AttributeError:
-                    self.contents.append(str(td).strip())
+                    self.values.append(str(td).strip())
 
         except Exception as e:
             print(e)
