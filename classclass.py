@@ -5,16 +5,32 @@ class Class(object):
     def __init__(self):
         self.class_table = {}
         self.class_dict = {}
+        self.class_name = ''
 
     def get_class(self):
-        class_name = input("Pick a class: (barbarian, bard, cleric, druid, fighter, "
-                    "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
-        import re
+        self.class_name = input("Pick a class: (barbarian, bard, cleric, druid, fighter, "
+                                "monk, paladin, ranger, rogue, sorcerer, wizard\n")
+        self.class_name = self.class_name.lower().strip()
+        class_list = ["barbarian", "bard", "cleric", "druid", "fighter", "monk",
+                      "paladin", "ranger", "rogue", "sorcerer", "wizard"]
+
+        if self.class_name not in class_list:
+            print("This isn't a class?")
+        else:
+            self.build_table()
+
+    def build_table(self):
+        # Each class will be hard-coded as a sub-class of this
+        # super class.
+        # This method will get all the table data for each class.
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//"
-        path += class_name + ".htm"
+        if self.class_name == "sorcerer" or self.class_name == "wizard":
+            path = "file:///E://www.d20srd.org//srd//classes//sorcererWizard"
+        else:
+            path = "file:///E://www.d20srd.org//srd//classes//"
+            path += self.class_name + ".htm"
 
         try:
             page = urllib.request.urlopen(path)
@@ -27,8 +43,6 @@ class Class(object):
                     self.col_heads.append(str(th.text).strip())
                 except AttributeError:
                     self.col_heads.append(str(th).strip())
-            self.col_heads.remove("Spells per Day1")
-
 
             for td in soup.tbody.find_all('td'):
                 try:
@@ -39,7 +53,20 @@ class Class(object):
         except Exception as e:
             print(e)
 
-druid = Class()
-druid.get_class()
-print(druid.col_heads, len(druid.col_heads), druid.contents, len(druid.contents))
-# This only works with 'cleric' right now
+
+class Fighter(Class):
+
+    def __init__(self):
+        super().__init__()
+
+
+class Barbarian(Class):
+
+    def __init__(self):
+        super().__init__()
+
+
+class Rogue(Class):
+
+    def __init__(self):
+        super().__init__()
