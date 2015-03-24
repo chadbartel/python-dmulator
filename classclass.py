@@ -3,10 +3,11 @@ __author__ = 'Chaddle'
 class Class(object):
 
     def __init__(self):
-        pass
+        self.class_table = {}
+        self.class_dict = {}
 
     def get_class(self):
-        class_name = input("Pick a class: (barbarian, bar, cleric, druid, fighter, "
+        class_name = input("Pick a class: (barbarian, bard, cleric, druid, fighter, "
                     "monk, multiclass, paladin, ranger, rogue, sorcererWizard\n")
         import re
         from bs4 import BeautifulSoup
@@ -18,14 +19,27 @@ class Class(object):
         try:
             page = urllib.request.urlopen(path)
             soup = BeautifulSoup(page.read())
-            keys = []
-            values = []
+            self.col_heads = []
+            self.contents = []
 
-            for h in soup.find_all('h5'):
+            for th in soup.find_all('th'):
                 try:
-                    values.append(str(h.text).strip())
+                    self.col_heads.append(str(th.text).strip())
                 except AttributeError:
-                    values.append(str(h).strip())
+                    self.col_heads.append(str(th).strip())
+            self.col_heads.remove("Spells per Day1")
+
+
+            for td in soup.tbody.find_all('td'):
+                try:
+                    self.contents.append(str(td.text).strip())
+                except AttributeError:
+                    self.contents.append(str(td).strip())
 
         except Exception as e:
             print(e)
+
+druid = Class()
+druid.get_class()
+print(druid.col_heads, len(druid.col_heads), druid.contents, len(druid.contents))
+# This only works with 'cleric' right now
