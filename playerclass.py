@@ -29,7 +29,9 @@ class Player(masterclass.Master):
                 self.ability_scores.append(sum(results))
 
     def get_class(self):
-        pass
+        from classclass import Class
+        class_obj = Class()
+        class_obj.get_class()
 
 chad = Player()
 chad.roll_abilities()
