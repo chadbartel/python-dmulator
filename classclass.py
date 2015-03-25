@@ -10,7 +10,6 @@ class Class(object):
 
     def get_class(self):
         self.class_name = input("Pick a class: (barbarian, bard, cleric, druid, fighter, "
-<<<<<<< HEAD
                                 "monk, paladin, ranger, rogue, sorcerer, wizard\n")
         self.class_name = self.class_name.lower().strip()
         class_list = ["barbarian", "bard", "cleric", "druid", "fighter", "monk",
@@ -95,47 +94,6 @@ class Cleric(Class):
     def __init__(self):
         super().__init__()
 
-=======
-                                "monk, paladin, ranger, rogue, sorcererWizard\n")
-        self.class_name = self.class_name.lower().strip()
-        self.build_table()
-
-
-class Fighter(Class):
-    # Melee class
-    def __init__(self):
-        super().__init__()
-
-
-class Barbarian(Class):
-    # Melee class
-    def __init__(self):
-        super().__init__()
-
-
-class Rogue(Class):
-    # Melee class
-    def __init__(self):
-        super().__init__()
-
-
-class Monk(Class):
-    # Melee class
-    def __init__(self):
-        super().__init__()
-
-
-class Bard(Class):
-    # Magic class
-    def __init__(self):
-        super().__init__()
-
-
-class Cleric(Class):
-    # Magic class
-    def __init__(self):
-        super().__init__()
-
     def build_table(self):
         from bs4 import BeautifulSoup
         import urllib.request
@@ -174,7 +132,7 @@ class Cleric(Class):
                 for i in range(1, 20):
                     self.class_table[i] = {}
             val_index += 1
->>>>>>> origin/master
+
 
 class Druid(Class):
     # Magic class
@@ -207,8 +165,5 @@ class Wizard(Class):
 
 cleric = Cleric()
 cleric.get_class()
-<<<<<<< HEAD
 print(cleric.class_table)
-=======
 print(cleric.keys, cleric.values)
->>>>>>> origin/master
