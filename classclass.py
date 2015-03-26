@@ -212,7 +212,8 @@ class Cleric(Class):
             # For each 15 items in values
             #   append these values to each of the
             #   15 subdicts in class_table
-            pass
+            for k in self.keys:
+                self.class_table[c][k] = {}
 
 
 class Druid(Class):
@@ -358,5 +359,3 @@ class Wizard(Class):
 cleric = Cleric()
 cleric.build_table()
 print(cleric.class_table, len(cleric.class_table))
-print(cleric.values, len(cleric.values))
-print(cleric.keys, len(cleric.keys))
