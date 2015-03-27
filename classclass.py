@@ -24,7 +24,7 @@ class Fighter(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//fighter.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//fighter.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -59,7 +59,7 @@ class Barbarian(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//barbarian.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//barbarian.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -87,7 +87,7 @@ class Rogue(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//rogue.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//rogue.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -114,7 +114,7 @@ class Monk(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//monk.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//monk.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -142,7 +142,7 @@ class Bard(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//bard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//bard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -171,7 +171,7 @@ class Cleric(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//cleric.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//cleric.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -208,12 +208,13 @@ class Cleric(Class):
                 if k == v:
                     self.values.remove(v)
 
-        for c in self.class_table:
-            # For each 15 items in values
-            #   append these values to each of the
-            #   15 subdicts in class_table
+        for c in self.class_table.keys():
             for k in self.keys:
-                self.class_table[c][k] = {}
+                for i in range(len(self.values)):
+                    self.class_table[c][k] = self.values.index(i)
+                    if i % 15 == 0:
+                        next(self.keys, None)
+                        next(self.class_table.keys(), None)
 
 
 class Druid(Class):
@@ -225,7 +226,7 @@ class Druid(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//druid.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//druid.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -253,7 +254,7 @@ class Paladin(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//paladin.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//paladin.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -281,7 +282,7 @@ class Ranger(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//ranger.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//ranger.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -309,7 +310,7 @@ class Sorcerer(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -337,7 +338,7 @@ class Wizard(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///E://www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -358,4 +359,4 @@ class Wizard(Class):
 
 cleric = Cleric()
 cleric.build_table()
-print(cleric.class_table, len(cleric.class_table))
+print(cleric.class_table)
