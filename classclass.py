@@ -211,10 +211,11 @@ class Cleric(Class):
         for c in self.class_table.keys():
             for k in self.keys:
                 for i in range(len(self.values)):
-                    self.class_table[c][k] = self.values.index(i)
                     if i % 15 == 0:
-                        next(self.keys, None)
-                        next(self.class_table.keys(), None)
+                        k.__next__()
+                        c.__next__()
+                    else:
+                        self.class_table[c][k] = self.values.index(i)
 
 
 class Druid(Class):
