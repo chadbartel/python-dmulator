@@ -197,26 +197,6 @@ class Cleric(Class):
             else:
                 pass
 
-        for v in self.values:
-            if self.values.index(v) % 16 == 0:
-                self.class_table[v] = {}
-            else:
-                pass
-
-        for k in self.class_table.keys():
-            for v in self.values:
-                if k == v:
-                    self.values.remove(v)
-
-        for c in self.class_table.keys():
-            for k in self.keys:
-                for i in range(len(self.values)):
-                    if i % 15 == 0:
-                        k.__next__()
-                        c.__next__()
-                    else:
-                        self.class_table[c][k] = self.values.index(i)
-
 
 class Druid(Class):
     # Magic class
