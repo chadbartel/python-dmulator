@@ -197,6 +197,14 @@ class Cleric(Class):
             else:
                 pass
 
+        # This gives you a dict of integers [1, 20]
+        table = {}
+        for i in range(1, 21):
+            table[i] = {}
+            for k in self.keys:
+                table[i][k] = {}
+        self.class_table = table
+
 
 class Druid(Class):
     # Magic class
@@ -340,4 +348,4 @@ class Wizard(Class):
 
 cleric = Cleric()
 cleric.build_table()
-print(cleric.class_table)
+print(cleric.class_table, len(cleric.class_table))
