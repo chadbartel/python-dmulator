@@ -36,19 +36,20 @@ class Fighter(Class):
             except AttributeError:
                 self.keys.append(str(th).strip())
 
-        for td in soup.tbody.find_all('td'):
+        for td in soup.find_all('td'):
             try:
                 self.values.append(str(td.text).strip())
             except AttributeError:
                 self.values.append(str(td).strip())
 
-        val_index = 0
-        for v in self.values:
-            if self.values.index(v) % 6 == 0:
-                self.class_table[v] = {}
-            else:
-                pass
+        for i in range(1, 21):
+            self.class_table[i] = {}
 
+        count = 0
+        for c in iter(self.class_table.keys()):
+            for k in iter(self.keys):
+                self.class_table[c][k] = self.values[count]
+                count += 1
 
 class Barbarian(Class):
     # Melee class
@@ -71,11 +72,20 @@ class Barbarian(Class):
             except AttributeError:
                 self.keys.append(str(th).strip())
 
-        for td in soup.tbody.find_all('td'):
+        for td in soup.find_all('td'):
             try:
                 self.values.append(str(td.text).strip())
             except AttributeError:
                 self.values.append(str(td).strip())
+
+        for i in range(1, 21):
+            self.class_table[i] = {}
+
+        count = 0
+        for c in iter(self.class_table.keys()):
+            for k in iter(self.keys):
+                self.class_table[c][k] = self.values[count]
+                count += 1
 
 
 class Rogue(Class):
@@ -99,11 +109,20 @@ class Rogue(Class):
             except AttributeError:
                 self.keys.append(str(th).strip())
 
-        for td in soup.tbody.find_all('td'):
+        for td in soup.find_all('td'):
             try:
                 self.values.append(str(td.text).strip())
             except AttributeError:
                 self.values.append(str(td).strip())
+
+        for i in range(1, 21):
+            self.class_table[i] = {}
+
+        count = 0
+        for c in iter(self.class_table.keys()):
+            for k in iter(self.keys):
+                self.class_table[c][k] = self.values[count]
+                count += 1
 
 
 class Monk(Class):
@@ -120,13 +139,13 @@ class Monk(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th'):
+        for th in soup.find_all('th', id="tableTheMonk"):
             try:
                 self.keys.append(str(th.text).strip())
             except AttributeError:
                 self.keys.append(str(th).strip())
 
-        for td in soup.tbody.find_all('td'):
+        for td in soup.find_all('td', id="tableTheMonk"):
             try:
                 self.values.append(str(td.text).strip())
             except AttributeError:
@@ -147,18 +166,6 @@ class Bard(Class):
         soup = BeautifulSoup(page.read())
         self.keys = []
         self.values = []
-
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
 
 
 class Cleric(Class):
@@ -361,7 +368,7 @@ class Wizard(Class):
             except AttributeError:
                 self.values.append(str(td).strip())
 
-
-cleric = Cleric()
-cleric.build_table()
-print(cleric.class_table)
+monk = Monk()
+monk.build_table()
+print(monk.keys, len(monk.keys))
+print(monk.values, len(monk.values))
