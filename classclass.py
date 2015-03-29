@@ -139,18 +139,6 @@ class Monk(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th', id="tableTheMonk"):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.find_all('td', id="tableTheMonk"):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
-
 
 class Bard(Class):
     # Magic class
@@ -244,18 +232,6 @@ class Druid(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
-
 
 class Paladin(Class):
     # Magic class
@@ -271,18 +247,6 @@ class Paladin(Class):
         soup = BeautifulSoup(page.read())
         self.keys = []
         self.values = []
-
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
 
 
 class Ranger(Class):
@@ -300,18 +264,6 @@ class Ranger(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
-
 
 class Sorcerer(Class):
     # Magic class
@@ -327,18 +279,6 @@ class Sorcerer(Class):
         soup = BeautifulSoup(page.read())
         self.keys = []
         self.values = []
-
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
-
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
 
 
 class Wizard(Class):
@@ -356,17 +296,7 @@ class Wizard(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th'):
-            try:
-                self.keys.append(str(th.text).strip())
-            except AttributeError:
-                self.keys.append(str(th).strip())
 
-        for td in soup.tbody.find_all('td'):
-            try:
-                self.values.append(str(td.text).strip())
-            except AttributeError:
-                self.values.append(str(td).strip())
 
 monk = Monk()
 monk.build_table()
