@@ -197,13 +197,29 @@ class Cleric(Class):
             else:
                 pass
 
-        # This gives you a dict of integers [1, 20]
-        table = {}
         for i in range(1, 21):
-            table[i] = {}
-            for k in self.keys:
-                table[i][k] = {}
-        self.class_table = table
+            self.class_table[i] = {}
+
+        # This gives you a dict of integers [1, 20]
+        self.dict_keys = []
+        for v in self.values:
+            if self.values.index(v) % 16 == 0:
+                self.dict_keys.append(v)
+            else:
+                pass
+
+        temp_vals = iter(self.values)
+        for v in temp_vals:
+            if v in self.dict_keys:
+                self.values.remove(v)
+            else:
+                pass
+
+        count = 0
+        for c in iter(self.class_table.keys()):
+            for k in iter(self.keys):
+                self.class_table[c][k] = self.values[count]
+                count += 1
 
 
 class Druid(Class):
@@ -348,4 +364,4 @@ class Wizard(Class):
 
 cleric = Cleric()
 cleric.build_table()
-print(cleric.class_table, len(cleric.class_table))
+print(cleric.class_table)
