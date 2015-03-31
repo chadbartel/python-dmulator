@@ -203,6 +203,7 @@ class Bard(Class):
             else:
                 pass
 
+        # Cantrips not showing up for 'Spells Known'
         level_list = ['0', '1st', '2nd', '3rd', '4th', '5th', '6th']
         count = 0
         for c in iter(self.class_table.keys()):
@@ -367,4 +368,5 @@ class Wizard(Class):
 
 bard = Bard()
 bard.build_table()
-print(bard.class_table[1])
+for i in range(1, 21):
+    print(bard.class_table[i])
