@@ -294,11 +294,23 @@ class Druid(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//druid.htm"
+        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//druid.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
         self.values = []
+
+        for th in soup.find_all('th'):
+            try:
+                self.keys.append(str(th.text).strip())
+            except AttributeError:
+                self.keys.append(str(th).strip())
+
+        for td in soup.tbody.find_all('td'):
+            try:
+                self.values.append(str(td.text).strip())
+            except AttributeError:
+                self.values.append(str(td).strip())
 
 
 class Paladin(Class):
@@ -366,7 +378,7 @@ class Wizard(Class):
 
 
 
-bard = Bard()
-bard.build_table()
-for i in range(1, 21):
-    print(i, bard.class_table[i])
+druid = Druid()
+druid.build_table()
+print(druid.keys, len(druid.keys))
+print(druid.values, len(druid.values))
