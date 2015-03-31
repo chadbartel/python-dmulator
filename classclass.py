@@ -170,7 +170,7 @@ class Bard(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//bard.htm"
+        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//bard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -211,11 +211,11 @@ class Bard(Class):
             self.class_table[c]['Spells Known'] = {}
             subcount = 0
             for k in iter(self.keys):
-                if k in level_list and subcount < 8:
+                if k in level_list and subcount < 7:
                     self.class_table[c]['Spells per Day'][k] = self.values[count]
                     subcount += 1
                     count += 1
-                elif k in level_list and subcount >= 8:
+                elif k in level_list and subcount >= 7:
                     self.class_table[c]['Spells Known'][k] = self.values[count]
                     subcount += 1
                     count += 1
@@ -369,4 +369,4 @@ class Wizard(Class):
 bard = Bard()
 bard.build_table()
 for i in range(1, 21):
-    print(bard.class_table[i])
+    print(i, bard.class_table[i])
