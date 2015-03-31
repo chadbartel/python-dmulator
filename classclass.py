@@ -203,7 +203,6 @@ class Bard(Class):
             else:
                 pass
 
-        # Cantrips not showing up for 'Spells Known'
         level_list = ['0', '1st', '2nd', '3rd', '4th', '5th', '6th']
         count = 0
         for c in iter(self.class_table.keys()):
@@ -300,17 +299,40 @@ class Druid(Class):
         self.keys = []
         self.values = []
 
-        for th in soup.find_all('th'):
+        for th in soup.tbody.find_all('th'):
             try:
                 self.keys.append(str(th.text).strip())
             except AttributeError:
                 self.keys.append(str(th).strip())
+
+        for k in self.keys:
+            if k == "Spells per Day":
+                self.keys.remove(k)
+            else:
+                pass
 
         for td in soup.tbody.find_all('td'):
             try:
                 self.values.append(str(td.text).strip())
             except AttributeError:
                 self.values.append(str(td).strip())
+
+        for i in range(1, 21):
+            self.class_table[i] = {}
+
+        level_list = ['0', '1st', '2nd', '3rd', '4th',
+                      '5th', '6th', '7th', '8th', '9th']
+
+        count = 0
+        for c in iter(self.class_table.keys()):
+            self.class_table[c]['Spells per Day'] = {}
+            for k in iter(self.keys):
+                if k in level_list:
+                    self.class_table[c]['Spells per Day'][k] = self.values[count]
+                    count += 1
+                else:
+                    self.class_table[c][k] = self.values[count]
+                    count += 1
 
 
 class Paladin(Class):
@@ -380,5 +402,5 @@ class Wizard(Class):
 
 druid = Druid()
 druid.build_table()
-print(druid.keys, len(druid.keys))
-print(druid.values, len(druid.values))
+for i in range(1, 21):
+    print(i, druid.class_table[i])
