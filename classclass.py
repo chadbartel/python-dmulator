@@ -191,9 +191,36 @@ class Bard(Class):
         for i in range(1, 21):
             self.class_table[i] = {}
 
-        # Put code here to create sub-sub-dicts
-        # These will be for 'Spells per Day' and
-        # 'Spells Known'
+        for k in self.keys:
+            if k == "Spells Known":
+                self.keys.remove(k)
+            else:
+                pass
+
+        for k in self.keys:
+            if k == "Spells per Day":
+                self.keys.remove(k)
+            else:
+                pass
+
+        level_list = ['0', '1st', '2nd', '3rd', '4th', '5th', '6th']
+        count = 0
+        for c in iter(self.class_table.keys()):
+            self.class_table[c]['Spells per Day'] = {}
+            self.class_table[c]['Spells Known'] = {}
+            subcount = 0
+            for k in iter(self.keys):
+                if k in level_list and subcount < 8:
+                    self.class_table[c]['Spells per Day'][k] = self.values[count]
+                    subcount += 1
+                    count += 1
+                elif k in level_list and subcount >= 8:
+                    self.class_table[c]['Spells Known'][k] = self.values[count]
+                    subcount += 1
+                    count += 1
+                else:
+                    self.class_table[c][k] = self.values[count]
+                    count += 1
 
 
 class Cleric(Class):
@@ -340,5 +367,4 @@ class Wizard(Class):
 
 bard = Bard()
 bard.build_table()
-print(bard.keys, len(bard.keys))
-print(bard.values, len(bard.values))
+print(bard.class_table[1])
