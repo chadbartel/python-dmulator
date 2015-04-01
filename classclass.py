@@ -444,22 +444,25 @@ class Sorcerer(Class):
         from bs4 import SoupStrainer, BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         only_tables = SoupStrainer("table")
         soup = BeautifulSoup(page.read(), parse_only=only_tables)
         self.keys = []
-        self.values = []
         self.table_ids = []
         self.sorc_tables = {}
-        ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
+        table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
-        for table in soup.find_all("table"):
-            id = table['id']
-            if id in ids:
-                self.sorc_tables[id] = table
-            else:
-                pass
+        for id in table_ids:
+            for st in soup.find(id=id):
+                table_soup = BeautifulSoup(st)
+                for th in table_soup.find_all("th"):
+                    try:
+                        self.keys.append(str(th.text).strip())
+                    except AttributeError:
+                        self.keys.append(str(th).strip())
+
+
 
 
 class Wizard(Class):
@@ -497,4 +500,3 @@ class Wizard(Class):
 
 sorc = Sorcerer()
 sorc.build_table()
-print(sorc.sorc_tables)
