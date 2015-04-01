@@ -448,6 +448,7 @@ class Sorcerer(Class):
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
+        self.table_values = {}
         self.sorc_tables = {}
         self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
@@ -466,6 +467,13 @@ class Sorcerer(Class):
             for th in table_soup.find_all("th"):
                 self.table_keys[id].append(str(th.text).strip())
 
+        for table in self.sorc_tables.values():
+            table_soup = BeautifulSoup(str(table))
+            id = table['id']
+            self.table_values[id] = []
+            for td in table_soup.find_all("td"):
+                self.table_values[id].append(str(td.text).strip())
+
 
 class Wizard(Class):
     # Magic class
@@ -480,6 +488,7 @@ class Wizard(Class):
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
+        self.table_values = {}
         self.wiz_tables = {}
         self.table_ids = ['tableTheWizard', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
@@ -494,11 +503,19 @@ class Wizard(Class):
             table_soup = BeautifulSoup(str(table))
             id = table['id']
             self.table_keys[id] = []
-            for th in table_soup.find_all("th"):
-                self.table_keys[id].append(str(th.text).strip())
+            for td in table_soup.find_all("th"):
+                self.table_keys[id].append(str(td.text).strip())
+
+        for table in self.wiz_tables.values():
+            table_soup = BeautifulSoup(str(table))
+            id = table['id']
+            self.table_values[id] = []
+            for td in table_soup.find_all("td"):
+                self.table_values[id].append(str(td.text).strip())
 
 
 
-wiz = Wizard()
-wiz.build_table()
-print(wiz.table_keys)
+sorc = Sorcerer()
+sorc.build_table()
+print(sorc.table_keys)
+print(sorc.table_values)
