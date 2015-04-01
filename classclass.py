@@ -394,7 +394,7 @@ class Ranger(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//ranger.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//ranger.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.keys = []
@@ -441,14 +441,21 @@ class Sorcerer(Class):
         super().__init__()
 
     def build_table(self):
-        from bs4 import BeautifulSoup
+        from bs4 import SoupStrainer, BeautifulSoup
         import urllib.request
 
         path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
-        soup = BeautifulSoup(page.read())
+        only_tables = SoupStrainer("table")
+        soup = BeautifulSoup(page.read(), parse_only=only_tables)
         self.keys = []
         self.values = []
+        self.table_ids = []
+        ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
+
+        for table in soup.find_all("table"):
+            id = table['id']
+            self.table_ids.append(id)
 
 
 class Wizard(Class):
@@ -465,10 +472,25 @@ class Wizard(Class):
         soup = BeautifulSoup(page.read())
         self.keys = []
         self.values = []
+        self.table_ids = []
+        self.sorc_tables = []
+
+        for table in soup.find_all("table"):
+            id = table['id']
+            self.table_ids.append(id)
+
+        for id in self.table_ids:
+            if id == "tableTheWizard":
+                self.sorc_tables.append(id)
+            elif id == "tableFamiliars":
+                self.sorc_tables.append(id)
+            elif id == "tableFamiliarSpecialAbilities":
+                self.sorc_tables.append(id)
+            else:
+                pass
 
 
 
-ranger = Ranger()
-ranger.build_table()
-for i in range(1, 21):
-    print(i, ranger.class_table[i])
+sorc = Sorcerer()
+sorc.build_table()
+print(sorc.table_ids)
