@@ -474,6 +474,10 @@ class Sorcerer(Class):
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
 
+        # Remove sub-note from Familiars table
+        bad_item = self.table_values['tableFamiliars'][0]
+        self.table_values['tableFamiliars'].remove(bad_item)
+
 
 class Wizard(Class):
     # Magic class
@@ -512,6 +516,10 @@ class Wizard(Class):
             self.table_values[id] = []
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
+
+        # Remove sub-note from Familiars table
+        bad_item = self.table_values['tableFamiliars'][0]
+        self.table_values['tableFamiliars'].remove(bad_item)
 
 
 
