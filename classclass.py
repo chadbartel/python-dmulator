@@ -447,7 +447,7 @@ class Sorcerer(Class):
         path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
-        self.keys = {}
+        self.table_keys = {}
         self.table_ids = []
         self.sorc_tables = {}
         self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
@@ -458,12 +458,14 @@ class Sorcerer(Class):
                 self.sorc_tables[id] = table
             else:
                 pass
-
+        
+        # Breakthrough! Yatta!
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
+            id = table['id']
+            self.table_keys[id] = []
             for th in table_soup.find_all("th"):
-                pass
-            pass
+                self.table_keys[id].append(str(th.text).strip())
 
 
 class Wizard(Class):
@@ -501,4 +503,4 @@ class Wizard(Class):
 
 sorc = Sorcerer()
 sorc.build_table()
-print(sorc.keys)
+print(sorc.table_keys)
