@@ -448,7 +448,6 @@ class Sorcerer(Class):
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
-        self.table_ids = []
         self.sorc_tables = {}
         self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
@@ -458,7 +457,7 @@ class Sorcerer(Class):
                 self.sorc_tables[id] = table
             else:
                 pass
-        
+
         # Breakthrough! Yatta!
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
@@ -477,30 +476,29 @@ class Wizard(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
-        self.keys = []
-        self.values = []
-        self.table_ids = []
+        self.table_keys = {}
         self.wiz_tables = {}
+        self.table_ids = ['tableTheWizard', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
         for table in soup.find_all("table"):
             id = table['id']
-            self.table_ids.append(id)
-
-        for id in self.table_ids:
-            if id == "tableTheWizard":
-                self.table_ids.append(id)
-            elif id == "tableFamiliars":
-                self.table_ids.append(id)
-            elif id == "tableFamiliarSpecialAbilities":
-                self.table_ids.append(id)
+            if id in self.table_ids:
+                self.wiz_tables[id] = table
             else:
                 pass
 
+        for table in self.wiz_tables.values():
+            table_soup = BeautifulSoup(str(table))
+            id = table['id']
+            self.table_keys[id] = []
+            for th in table_soup.find_all("th"):
+                self.table_keys[id].append(str(th.text).strip())
 
 
-sorc = Sorcerer()
-sorc.build_table()
-print(sorc.table_keys)
+
+wiz = Wizard()
+wiz.build_table()
+print(wiz.table_keys)
