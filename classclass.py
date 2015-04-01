@@ -451,11 +451,15 @@ class Sorcerer(Class):
         self.keys = []
         self.values = []
         self.table_ids = []
+        self.sorc_tables = {}
         ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
 
         for table in soup.find_all("table"):
             id = table['id']
-            self.table_ids.append(id)
+            if id in ids:
+                self.sorc_tables[id] = table
+            else:
+                pass
 
 
 class Wizard(Class):
@@ -493,4 +497,4 @@ class Wizard(Class):
 
 sorc = Sorcerer()
 sorc.build_table()
-print(sorc.table_ids)
+print(sorc.sorc_tables)
