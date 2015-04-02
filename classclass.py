@@ -494,13 +494,9 @@ class Sorcerer(Class):
             for c in self.class_table[i].keys():
                 # Each of these sub-dicts contains a list
                 # We need to iterate through each list
-                # and set them equal to their own empty dicts
-                count = 0
+                # and set them equal to their own empty values
                 for k in self.table_keys[c]:
-                    # List indices must be integers!
-                    # 'count' isn't pulling the correct values
-                    self.class_table[i][c][k] = self.table_values[c][count]
-                    count += 1
+                    self.class_table[i][c][k] = ''
 
 
 class Wizard(Class):
