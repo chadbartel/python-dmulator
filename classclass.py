@@ -456,7 +456,6 @@ class Sorcerer(Class):
             else:
                 pass
 
-        count = 0
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
             id = table['id']
@@ -497,6 +496,17 @@ class Sorcerer(Class):
                 # and set them equal to their own empty values
                 for k in self.table_keys[c]:
                     self.class_table[i][c][k] = ''
+
+        # Iterate from 1 through 20
+        for i in self.class_table.keys():
+            # 'tableTheSorcerer' and 'tableSorcererSpellsKnown'
+            count = 0
+            for c in self.class_table[i].keys():
+                # Iterate through keys in:
+                # 'tableTheSorcerer' and 'tableSorcererSpellsKnown'
+                for k in self.class_table[i][c].keys():
+                    self.class_table[i][c][k] = self.table_values[c][count]
+                    count += 1
 
 
 class Wizard(Class):
@@ -547,3 +557,4 @@ print(sorc.table_values['tableTheSorcerer'],
 print(sorc.table_values['tableSorcererSpellsKnown'],
       len(sorc.table_values['tableSorcererSpellsKnown']))
 print(sorc.class_table)
+print(sorc.table_values['tableTheSorcerer'][0])
