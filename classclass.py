@@ -498,10 +498,10 @@ class Sorcerer(Class):
                 for k in self.table_keys[c]:
                     # List indices must be integers!
                     # Therefore...
-                        # Still trying to figure out this one
-                        # The output is overwriting 'table_keys'
-                        # and setting them equal to empty dicts
-                    self.class_table[i][c][k] = {}
+                    # Using 'count' doesn't seem to work, either...
+                    # It doesn't throw this error for 'i'
+                    # So the issue must be that 'count' is going too high
+                    self.class_table[i][c][k] = self.table_values[c][count]
                     count += 1
 
 
