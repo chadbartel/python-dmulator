@@ -8,11 +8,6 @@ class Class(object):
         self.class_dict = {}
         self.class_name = ''
 
-    def get_class(self):
-        self.class_name = input("Pick a class: (barbarian, bard, cleric, druid, fighter, "
-                                "monk, paladin, ranger, rogue, sorcerer, wizard\n")
-        self.class_name = self.class_name.lower().strip()
-
 
 class Fighter(Class):
     # Melee class
@@ -461,6 +456,7 @@ class Sorcerer(Class):
             else:
                 pass
 
+        count = 0
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
             id = table['id']
@@ -484,7 +480,9 @@ class Sorcerer(Class):
             self.class_table[i] = {}
 
         for c in self.class_table.keys():
-            self.class_table[c] = self.table_keys
+            self.class_table[c] = {}
+            for k in self.table_keys.keys():
+                self.class_table[c][k] = {}
 
         # Create sub-sub-dicts here
         # this is where the values will be zipped
@@ -500,10 +498,10 @@ class Sorcerer(Class):
                 for k in self.table_keys[c]:
                     # List indices must be integers!
                     # Therefore...
-                        # Still trying to figure this one out
+                        # Still trying to figure out this one
                         # The output is overwriting 'table_keys'
                         # and setting them equal to empty dicts
-                    print(count)
+                    self.class_table[i][c][k] = {}
                     count += 1
 
 
