@@ -444,7 +444,7 @@ class Sorcerer(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
@@ -461,7 +461,6 @@ class Sorcerer(Class):
             else:
                 pass
 
-        # Breakthrough! Yatta!
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
             id = table['id']
@@ -487,12 +486,24 @@ class Sorcerer(Class):
         for c in self.class_table.keys():
             self.class_table[c] = self.table_keys
 
-        # KeyError: 'Level'
+        # Create sub-sub-dicts here
+        # this is where the values will be zipped
+        # to their corresponding key in 'class_table'
         count = 0
         for i in range(1, 21):
-            for c in iter(self.class_table[i].keys()):
-                for k in iter(self.table_keys[c]):
-                    self.class_table[i][k][count] = {}
+            # This is just two keys:
+            # 'tableTheSorcerer' and 'tableSorcererSpellsKnown'
+            for c in self.class_table[i].keys():
+                # Each of these sub-dicts contains a list
+                # We need to iterate through each list
+                # and set them equal to their own empty dicts
+                for k in self.table_keys[c]:
+                    # List indices must be integers!
+                    # Therefore...
+                        # Still trying to figure this one out
+                        # The output is overwriting 'table_keys'
+                        # and setting them equal to empty dicts
+                    print(count)
                     count += 1
 
 
@@ -540,4 +551,4 @@ sorc = Sorcerer()
 sorc.build_table()
 print(sorc.table_keys)
 print(sorc.table_values)
-print(sorc.class_table[2]['tableTheSorcerer'][0])
+print(sorc.class_table)
