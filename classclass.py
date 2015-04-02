@@ -487,11 +487,11 @@ class Sorcerer(Class):
         # Create sub-sub-dicts here
         # this is where the values will be zipped
         # to their corresponding key in 'class_table'
-        count = 0
         for i in range(1, 21):
             # This is just two keys:
             # 'tableTheSorcerer' and 'tableSorcererSpellsKnown'
             for c in self.class_table[i].keys():
+                count = 0
                 # Each of these sub-dicts contains a list
                 # We need to iterate through each list
                 # and set them equal to their own empty dicts
@@ -500,7 +500,7 @@ class Sorcerer(Class):
                     # Therefore...
                     # Using 'count' doesn't seem to work, either...
                     # It doesn't throw this error for 'i'
-                    # So the issue must be that 'count' is going too high
+                    # The issue must be that 'count' is going too damn high
                     self.class_table[i][c][k] = self.table_values[c][count]
                     count += 1
 
@@ -548,5 +548,8 @@ class Wizard(Class):
 sorc = Sorcerer()
 sorc.build_table()
 print(sorc.table_keys)
-print(sorc.table_values)
+print(sorc.table_values['tableTheSorcerer'],
+      len(sorc.table_values['tableTheSorcerer']))
+print(sorc.table_values['tableSorcererSpellsKnown'],
+      len(sorc.table_values['tableSorcererSpellsKnown']))
 print(sorc.class_table)
