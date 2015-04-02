@@ -444,13 +444,15 @@ class Sorcerer(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
         self.table_values = {}
         self.sorc_tables = {}
-        self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
+        self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown']
+        level_list = ['0', '1st', '2nd', '3rd', '4th',
+                      '5th', '6th', '7th', '8th', '9th']
 
         for table in soup.find_all("table"):
             id = table['id']
@@ -465,7 +467,12 @@ class Sorcerer(Class):
             id = table['id']
             self.table_keys[id] = []
             for th in table_soup.find_all("th"):
-                self.table_keys[id].append(str(th.text).strip())
+                if str(th.text).strip() == "Spells Known":
+                    pass
+                elif str(th.text).strip() == "Spells per Day":
+                    pass
+                else:
+                    self.table_keys[id].append(str(th.text).strip())
 
         for table in self.sorc_tables.values():
             table_soup = BeautifulSoup(str(table))
@@ -474,9 +481,19 @@ class Sorcerer(Class):
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
 
-        # Remove sub-note from Familiars table
-        bad_item = self.table_values['tableFamiliars'][0]
-        self.table_values['tableFamiliars'].remove(bad_item)
+        for i in range(1, 21):
+            self.class_table[i] = {}
+
+        for c in self.class_table.keys():
+            self.class_table[c] = self.table_keys
+
+        # KeyError: 'Level'
+        count = 0
+        for i in range(1, 21):
+            for c in iter(self.class_table[i].keys()):
+                for k in iter(self.table_keys[c]):
+                    self.class_table[i][k][count] = {}
+                    count += 1
 
 
 class Wizard(Class):
@@ -488,13 +505,13 @@ class Wizard(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
         self.table_values = {}
         self.wiz_tables = {}
-        self.table_ids = ['tableTheWizard', 'tableFamiliars', 'tableFamiliarSpecialAbilities']
+        self.table_ids = ['tableTheWizard']
 
         for table in soup.find_all("table"):
             id = table['id']
@@ -517,13 +534,10 @@ class Wizard(Class):
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
 
-        # Remove sub-note from Familiars table
-        bad_item = self.table_values['tableFamiliars'][0]
-        self.table_values['tableFamiliars'].remove(bad_item)
-
 
 
 sorc = Sorcerer()
 sorc.build_table()
 print(sorc.table_keys)
 print(sorc.table_values)
+print(sorc.class_table[2]['tableTheSorcerer'][0])
