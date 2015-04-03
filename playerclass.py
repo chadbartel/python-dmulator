@@ -2,6 +2,7 @@ __author__ = "Chaddle"
 
 import masterclass
 
+
 class Player(masterclass.Master):
 
     def __init__(self):
@@ -56,4 +57,49 @@ class Player(masterclass.Master):
             return self.class_name
 
     def create_class(self):
-        pass
+        if self.class_name == "barbarian":
+            from classclass import Barbarian
+            self.name = Barbarian()
+            self.name.build_table()
+        elif self.class_name == "bard":
+            from classclass import Bard
+            self.name = Bard()
+            self.name.build_table()
+        elif self.class_name == "cleric":
+            from classclass import Cleric
+            self.name = Cleric()
+            self.name.build_table()
+        elif self.class_name == "druid":
+            from classclass import Druid
+            self.name = Druid()
+            self.name.build_table()
+        elif self.class_name == "fighter":
+            from classclass import Fighter
+            self.name = Fighter()
+            self.name.build_table()
+        elif self.class_name == "monk":
+            from classclass import Monk
+            self.name = Monk()
+            self.name.build_table()
+        elif self.class_name == "paladin":
+            from classclass import Paladin
+            self.name = Paladin()
+            self.name.build_table()
+        elif self.class_name == "ranger":
+            from classclass import Ranger
+            self.name = Ranger()
+            self.name.build_table()
+        elif self.class_name == "rogue":
+            from classclass import Rogue
+            self.name = Rogue()
+            self.name.build_table()
+        elif self.class_name == "sorcerer":
+            from classclass import Sorcerer
+            self.name = Sorcerer()
+            self.name.build_table()
+        elif self.class_name == "wizard":
+            from classclass import Wizard
+            self.name = Wizard()
+            self.name.build_table()
+        else:
+            raise Exception
