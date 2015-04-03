@@ -10,9 +10,9 @@ class Player(masterclass.Master):
         self.class_dict = {}
         self.ability_dict = {}
         self.ability_scores = []
+        self.class_name = ''
 
     def roll_abilities(self):
-
         if self.ability_scores != []:
             pass
         else:
@@ -29,10 +29,31 @@ class Player(masterclass.Master):
                 self.ability_scores.append(sum(results))
 
     def get_class(self):
-        from classclass import Class
-        class_obj = Class()
-        class_obj.get_class()
+        self.class_lookup()
+        self.create_class()
 
-chad = Player()
-chad.roll_abilities()
-print(chad.ability_scores)
+    def class_lookup(self):
+        class_list = ['barbarian', 'bard', 'cleric', 'druid', 'fighter',
+                      'monk', 'paladin', 'ranger', 'rogue', 'sorcerer',
+                      'wizard']
+        self.class_name = input("Pick a class:\n"
+                                "barbarian,\n"
+                                "bard,\n"
+                                "cleric,\n"
+                                "druid,\n"
+                                "fighter,\n"
+                                "monk,\n"
+                                "paladin,\n"
+                                "ranger,\n"
+                                "rogue,\n"
+                                "sorcerer,\n"
+                                "wizard\n\n")
+        self.class_name = self.class_name.strip()
+        if self.class_name not in class_list:
+            print("This is not a valid class. Please try again.")
+            self.class_lookup()
+        else:
+            return self.class_name
+
+    def create_class(self):
+        pass
