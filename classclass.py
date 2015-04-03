@@ -446,8 +446,6 @@ class Sorcerer(Class):
         self.table_values = {}
         self.sorc_tables = {}
         self.table_ids = ['tableTheSorcerer', 'tableSorcererSpellsKnown']
-        level_list = ['0', '1st', '2nd', '3rd', '4th',
-                      '5th', '6th', '7th', '8th', '9th']
 
         for table in soup.find_all("table"):
             id = table['id']
@@ -521,8 +519,13 @@ class Wizard(Class):
             table_soup = BeautifulSoup(str(table))
             id = table['id']
             self.table_keys[id] = []
-            for td in table_soup.find_all("th"):
-                self.table_keys[id].append(str(td.text).strip())
+            for th in table_soup.find_all("th"):
+                if str(th.text).strip() == "Spells Known":
+                    pass
+                elif str(th.text).strip() == "Spells per Day":
+                    pass
+                else:
+                    self.table_keys[id].append(str(th.text).strip())
 
         for table in self.wiz_tables.values():
             table_soup = BeautifulSoup(str(table))
@@ -531,7 +534,11 @@ class Wizard(Class):
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
 
-
-
-wiz = Wizard()
-wiz.build_table()
+        count = 0
+        for i in range(1, 21):
+            self.class_table[i] = {}
+            self.class_table[i]['tableTheWizard'] = {}
+            for v in self.table_keys['tableTheWizard']:
+                self.class_table[i]['tableTheWizard'][v] = \
+                    self.table_values['tableTheWizard'][count]
+                count += 1
