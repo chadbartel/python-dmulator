@@ -28,7 +28,7 @@ class Master(object):
             elif str(save_type).capitalize() == 'Will':
                 save = randint(1, 20) + int(self.master_dict['saves']['Will'])
                 return save
-        except LookupError as e:
+        except Exception as e:
             print(e)
 
     def skill_check(self, skill_name):
