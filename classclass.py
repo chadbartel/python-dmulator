@@ -439,7 +439,7 @@ class Sorcerer(Class):
         from bs4 import BeautifulSoup
         import urllib.request
 
-        path = "file:///C://Users//v-chbart//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
+        path = "file:///C://Users//Chaddle//PycharmProjects//www.d20srd.org//srd//classes//sorcererWizard.htm"
         page = urllib.request.urlopen(path)
         soup = BeautifulSoup(page.read())
         self.table_keys = {}
@@ -475,27 +475,22 @@ class Sorcerer(Class):
             for td in table_soup.find_all("td"):
                 self.table_values[id].append(str(td.text).strip())
 
+        count = 0
         for i in range(1, 21):
             self.class_table[i] = {}
+            self.class_table[i]['tableTheSorcerer'] = {}
+            for v in self.table_keys['tableTheSorcerer']:
+                self.class_table[i]['tableTheSorcerer'][v] = \
+                    self.table_values['tableTheSorcerer'][count]
+                count += 1
 
-        for c in self.class_table.keys():
-            self.class_table[c] = {}
-            for k in self.table_keys.keys():
-                self.class_table[c][k] = {}
-
-        # Create sub-sub-dicts here
-        # this is where the values will be zipped
-        # to their corresponding key in 'class_table'
-
+        count = 0
         for i in range(1, 21):
-            # This is just two keys:
-            # 'tableTheSorcerer' and 'tableSorcererSpellsKnown'
-            for c in self.class_table[i].keys():
-                # Each of these sub-dicts contains a list
-                # We need to iterate through each list
-                # and set them equal to their own empty values
-                for k in self.table_keys[c]:
-                    self.class_table[i][c][k] = ''
+            self.class_table[i]['tableSorcererSpellsKnown'] = {}
+            for v in self.table_keys['tableSorcererSpellsKnown']:
+                self.class_table[i]['tableSorcererSpellsKnown'][v] = \
+                    self.table_values['tableSorcererSpellsKnown'][count]
+                count += 1
 
 
 class Wizard(Class):
@@ -538,12 +533,5 @@ class Wizard(Class):
 
 
 
-sorc = Sorcerer()
-sorc.build_table()
-print(sorc.table_keys)
-print(sorc.table_values['tableTheSorcerer'],
-      len(sorc.table_values['tableTheSorcerer']))
-print(sorc.table_values['tableSorcererSpellsKnown'],
-      len(sorc.table_values['tableSorcererSpellsKnown']))
-print(sorc.class_table)
-print(sorc.table_values['tableTheSorcerer'][0])
+wiz = Wizard()
+wiz.build_table()
