@@ -114,9 +114,3 @@ class Player(masterclass.Master):
             self.class_dict = self.name.class_table
         else:
             raise Exception
-
-
-
-chad = Player()
-chad.get_class()
-print(chad.class_dict)
