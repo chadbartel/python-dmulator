@@ -30,6 +30,3 @@ class Master(object):
                 return save
         except Exception as e:
             print(e)
-
-    def skill_check(self, skill_name):
-        pass
